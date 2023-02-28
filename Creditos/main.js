@@ -172,9 +172,26 @@ var app = new Vue({
         if (this.codes.some((code) => code === this.cod)) {
           console.log(this.cod);
           this.addCoinsArrayUsers();
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
 
-          localStorage.removeItem("coins");
-          this.isValidCheckout = false;
+          Toast.fire({
+            icon: "success",
+            title: "RickyCoins Canjeadas Correctamente",
+          });
+          setTimeout(() => {
+            localStorage.removeItem("coins");
+            this.isValidCheckout = false;
+          }, 3000);
         } else {
           Swal.fire({
             icon: "error",
@@ -206,7 +223,7 @@ var app = new Vue({
         this.events();
       }
     } else {
-      location.href = "../Login/index.html";
+      location.href = "../index.html";
     }
 
     // this.redirectToCoins();
